@@ -1,26 +1,33 @@
 import { useState } from "react";
 
+const initialState = {
+  name: "",
+  image: "",
+  price: ""
+}
+
+const URL = "http://localhost:6001/plants"
+
 function NewPlantForm({ onPlantFormSubmit }) {
 
-  const [newPlantName, setNewPlantName] = useState("")
-  const [newPlantImageUrl, setNewPlantImageUrl] = useState("")
-  const [newPlantPrice, setNewPlantPrice] = useState("")
+  const [formData, setFormData] = useState(initialState)
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
 
-  
+  // Pessimistic rendering
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newPlant = {
-      name: newPlantName,
-      image: newPlantImageUrl,
-      price: newPlantPrice
-    }
-    fetch("http://localhost:6001/plants", {
+    fetch(URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", 
+        "Content-Type": "Application/JSON", 
       },
-      body: JSON.stringify(newPlant)
+      body: JSON.stringify(formData)
     })
       .then(resp => resp.json())
       .then(newPlant => onPlantFormSubmit(newPlant))
@@ -29,14 +36,15 @@ function NewPlantForm({ onPlantFormSubmit }) {
   return (
     <div className="new-plant-form">
       <h2>New Plant</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Plant name" value={newPlantName} onChange={e => setNewPlantName(e.target.value)}/>
-        <input type="text" name="image" placeholder="Image URL" value={newPlantImageUrl} onChange={e => setNewPlantImageUrl(e.target.value)}/>
-        <input type="number" name="price" step="0.01" placeholder="Price" value={newPlantPrice} onChange={e => setNewPlantPrice(e.target.value)}/>
+      <form onSubmit={handleSubmit} onChange={handleChange}>
+        <input type="text" name="name" placeholder="Plant name" value={formData.name} />
+        <input type="text" name="image" placeholder="Image URL" value={formData.image} />
+        <input type="number" name="price" step="0.01" placeholder="Price" value={formData.number} />
         <button type="submit">Add Plant</button>
       </form>
     </div>
   );
 }
+
 
 export default NewPlantForm;

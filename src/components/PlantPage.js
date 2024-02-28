@@ -19,9 +19,7 @@ function PlantPage() {
     , [])
 
   const onPlantFormSubmit = (newPlant) => {
-    const newPlantArray = [...plants, newPlant]
-    setPlants(newPlantArray)
-    // setPlants([...plants, newPlant])
+    setPlants([...plants, newPlant])
   }
 
   const handleSearch = (e) => {
