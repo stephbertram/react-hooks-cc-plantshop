@@ -43,22 +43,10 @@
       "price": 55
     },
     {
-      "name": "test",
+      "name": "Test",
       "image": "./images/aloe.jpg",
       "price": "10.99",
       "id": 8
-    },
-    {
-      "name": "test2",
-      "image": "./images/zz-plant.jpg",
-      "price": "12.34",
-      "id": 9
-    },
-    {
-      "name": "test3",
-      "image": "./images/pilea.jpg",
-      "price": "99.99",
-      "id": 10
     }
   ]
 }

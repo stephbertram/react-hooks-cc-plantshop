@@ -26,12 +26,24 @@ function PlantPage() {
     setSearchQuery(e.target.value)
   }
 
+  // Clean up after
+
+  const onDeleteClick = (deletedPlant) => {
+    const updatedArray = plants.filter(plant => plant.id !== deletedPlant.id)
+    setPlants(updatedArray)
+  }
+
+  const onEditClick = (editedPlant) => {
+    const updatedArray = plants.map(plant => plant.id === editedPlant.id ? editedPlant : plant)
+    setPlants(updatedArray)
+  }
+
   return (
     <main>
       {error ? <span>{error}</span> : null}
       <NewPlantForm onPlantFormSubmit={onPlantFormSubmit}/>
       <Search handleSearch={handleSearch} searchQuery={searchQuery} />
-      <PlantList plants={plants} searchQuery={searchQuery}/>
+      <PlantList plants={plants} searchQuery={searchQuery} onDeleteClick={onDeleteClick} onEditClick={onEditClick}/>
     </main>
   );
 }
