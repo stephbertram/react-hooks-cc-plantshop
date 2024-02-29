@@ -11,6 +11,7 @@ const URL = "http://localhost:6001/plants"
 function NewPlantForm({ onPlantFormSubmit }) {
 
   const [formData, setFormData] = useState(initialState)
+  const [error, setError] = useState("")
 
   const handleChange = (e) => {
     setFormData({
@@ -19,7 +20,6 @@ function NewPlantForm({ onPlantFormSubmit }) {
     })
   }
 
-  // Pessimistic rendering
   const handleSubmit = (e) => {
     e.preventDefault()
     fetch(URL, {
@@ -31,10 +31,13 @@ function NewPlantForm({ onPlantFormSubmit }) {
     })
       .then(resp => resp.json())
       .then(newPlant => onPlantFormSubmit(newPlant))
+      setFormData(initialState)
+      .catch(err => setError(err.message))
   }
 
   return (
     <div className="new-plant-form">
+      {error ? <span>{error}</span> : null}
       <h2>New Plant</h2>
       <form onSubmit={handleSubmit} onChange={handleChange}>
         <input type="text" name="name" placeholder="Plant name" value={formData.name} />
@@ -45,6 +48,5 @@ function NewPlantForm({ onPlantFormSubmit }) {
     </div>
   );
 }
-
 
 export default NewPlantForm;
